@@ -13,6 +13,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ["Outfit", "Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
+        display: ["Inter", "Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
