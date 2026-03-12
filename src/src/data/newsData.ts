@@ -101,51 +101,6 @@ export const mockNews: NewsItem[] = [
     category: "Research",
     timeAgo: "Today",
   },
-  {
-    id: "6",
-    title: "The Top 100 Gen AI Consumer Apps — a16z's Sixth Edition",
-    summary: "ChatGPT remains the leading AI product globally, but Gemini and Claude are gaining traction. The landscape is diversifying with notable developments in video generation and agentic AI.",
-    takeaways: [
-      "CapCut, Canva, and Notion now integrate AI as core product features",
-      "Gemini and Claude gaining ground in US paid subscriptions",
-      "Video generation and agentic AI are the fastest-growing categories",
-      "OpenClaw noted as a significant new entrant in the agentic space",
-    ],
-    source: "TLDR AI",
-    url: "https://a16z.com/100-gen-ai-apps-6/",
-    category: "Industry",
-    timeAgo: "Today",
-  },
-  {
-    id: "7",
-    title: "Claude Code Review: Multi-Agent PR Analysis Launches",
-    summary: "Code Review for Claude Code enables automated PR reviews that catch logic errors, security vulnerabilities, and regressions. Reviews average $15-$25 per analysis.",
-    takeaways: [
-      "Multi-agent analysis catches logic errors, security issues, and regressions",
-      "Posts findings as inline comments on GitHub PRs",
-      "Does not approve or block PRs — integrates with existing review workflows",
-      "Billed on token usage, averaging $15-$25 per review",
-    ],
-    source: "TLDR AI",
-    url: "https://code.claude.com/docs/en/code-review",
-    category: "LLMs",
-    timeAgo: "Today",
-  },
-  {
-    id: "8",
-    title: "Tencent Releases Penguin-VL: Efficient Vision-Language Models",
-    summary: "Penguin-VL introduces a compact VLM family with a redesigned vision encoder initialized from a text-only LLM to align visual features with language representations.",
-    takeaways: [
-      "Vision encoder initialized from text-only LLM for better multimodal alignment",
-      "Designed for efficiency — compact model size with strong performance",
-      "Improves data-efficient multimodal reasoning",
-      "Open source on GitHub from Tencent AI Lab",
-    ],
-    source: "TLDR AI",
-    url: "https://github.com/tencent-ailab/Penguin-VL",
-    category: "Research",
-    timeAgo: "Today",
-  },
 ];
 
 export interface CommunityPost {

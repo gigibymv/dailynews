@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -45,7 +45,6 @@
     --sidebar-border: 40 8% 85%;
     --sidebar-ring: 8 80% 52%;
 
-    /* Dark card variant for contrast alternation like the reference */
     --card-dark: 0 0% 14%;
     --card-dark-foreground: 40 10% 94%;
 
@@ -62,5 +61,15 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: "Outfit", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Hide scrollbar for tab strips */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }

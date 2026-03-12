@@ -26,8 +26,8 @@ export const todayBriefing: ExecutiveBriefing = {
         "Enterprise AI governance is becoming table stakes. Companies deploying LLMs without systematic evaluation frameworks face mounting regulatory and reputational risk. This acquisition compresses the timeline for AI safety tooling to become a procurement requirement.",
       sources: ["Financial Times", "TechCrunch", "OpenAI Blog"],
       sourceUrls: [
-        "https://ft.com",
-        "https://techcrunch.com",
+        "https://www.ft.com/artificial-intelligence",
+        "https://techcrunch.com/category/artificial-intelligence/",
         "https://www.promptfoo.dev/blog/promptfoo-joining-openai/",
       ],
     },
@@ -40,9 +40,9 @@ export const todayBriefing: ExecutiveBriefing = {
         "The AI-defense relationship is fracturing along ethical lines. Companies choosing Claude for government-adjacent work face sudden procurement risk. This creates an opening for competitors willing to accept broader military use cases — and a reputational premium for those who refuse.",
       sources: ["Reuters", "TechCrunch", "Bloomberg"],
       sourceUrls: [
-        "https://reuters.com",
+        "https://www.reuters.com/technology/artificial-intelligence/",
         "https://techcrunch.com/2026/03/09/anthropic-sues-defense-department-over-supply-chain-risk-designation/",
-        "https://bloomberg.com",
+        "https://www.bloomberg.com/technology",
       ],
     },
     {
@@ -54,9 +54,9 @@ export const todayBriefing: ExecutiveBriefing = {
         "Microsoft is shifting from AI-as-assistant to AI-as-autonomous-coordinator. This fundamentally changes the competitive landscape for enterprise productivity — and raises the bar for any SaaS tool competing in the M365 ecosystem. Expect rapid adoption in organizations already deep in the Microsoft stack.",
       sources: ["The Verge", "Microsoft Blog", "Bloomberg"],
       sourceUrls: [
-        "https://theverge.com",
+        "https://www.theverge.com/ai-artificial-intelligence",
         "https://www.microsoft.com/en-us/microsoft-365/blog/2026/03/09/copilot-cowork-a-new-way-of-getting-work-done/",
-        "https://bloomberg.com",
+        "https://www.bloomberg.com/technology",
       ],
     },
     {
@@ -68,8 +68,8 @@ export const todayBriefing: ExecutiveBriefing = {
         "The AI-search relationship is additive, not zero-sum — for now. Brands dependent on SEO-driven traffic must accelerate AI visibility strategies. The 83% mobile concentration means AI-first experiences must be designed for mobile contexts, not desktop interfaces.",
       sources: ["Reuters", "Financial Times", "Search Engine Land"],
       sourceUrls: [
-        "https://reuters.com",
-        "https://ft.com",
+        "https://www.reuters.com/technology/artificial-intelligence/",
+        "https://www.ft.com/artificial-intelligence",
         "https://searchengineland.com/ai-assistants-global-search-engine-volume-study-471118",
       ],
     },
@@ -82,8 +82,8 @@ export const todayBriefing: ExecutiveBriefing = {
         "AI-assisted code review is transitioning from experimental to standard engineering practice. At $15–$25 per review, it's cost-competitive with senior engineer time. Development teams not adopting these tools within 12 months will face velocity disadvantages.",
       sources: ["TechCrunch", "The Verge", "Anthropic Blog"],
       sourceUrls: [
-        "https://techcrunch.com",
-        "https://theverge.com",
+        "https://techcrunch.com/category/artificial-intelligence/",
+        "https://www.theverge.com/ai-artificial-intelligence",
         "https://code.claude.com/docs/en/code-review",
       ],
     },
@@ -98,9 +98,9 @@ export const todayBriefing: ExecutiveBriefing = {
         "Nigeria is positioning itself as a regulatory leader in African AI governance. Companies operating in Nigerian fintech and healthtech should begin compliance planning now. The framework's data sovereignty provisions could impact cross-border AI deployments across West Africa.",
       sources: ["TechCabal", "African Business", "NITDA Official Release"],
       sourceUrls: [
-        "https://techcabal.com",
-        "https://african.business",
-        "https://nitda.gov.ng",
+        "https://techcabal.com/category/artificial-intelligence/",
+        "https://african.business/category/technology",
+        "https://nitda.gov.ng/",
       ],
     },
     {
@@ -112,9 +112,9 @@ export const todayBriefing: ExecutiveBriefing = {
         "This partnership elevates East Africa's positioning in the global AI research landscape. Kenyan AI talent now has a direct pathway to frontier research collaboration. Agricultural AI applications developed here could scale across the continent's farming economies.",
       sources: ["Reuters Africa", "TechCabal", "Smart Africa"],
       sourceUrls: [
-        "https://reuters.com/africa",
-        "https://techcabal.com",
-        "https://smartafrica.org",
+        "https://www.reuters.com/world/africa/",
+        "https://techcabal.com/category/artificial-intelligence/",
+        "https://smartafrica.org/",
       ],
     },
     {
@@ -126,9 +126,9 @@ export const todayBriefing: ExecutiveBriefing = {
         "Multilingual AI infrastructure is the unlock for mass-market AI adoption in Africa. This toolkit enables developers to build products that serve 80%+ of South Africa's population in their home language. Companies building for African markets should integrate these resources immediately.",
       sources: ["Disrupt Africa", "African Business", "CSIR Official Release"],
       sourceUrls: [
-        "https://disrupt-africa.com",
-        "https://african.business",
-        "https://csir.co.za",
+        "https://disrupt-africa.com/",
+        "https://african.business/category/technology",
+        "https://www.csir.co.za/",
       ],
     },
     {
@@ -140,9 +140,23 @@ export const todayBriefing: ExecutiveBriefing = {
         "This is the largest institutional commitment to AI compute infrastructure in Africa to date. The five-hub model signals a deliberate strategy to distribute AI capabilities rather than concentrate them. Companies planning African AI operations should align with these hub cities for infrastructure access.",
       sources: ["African Development Bank", "Reuters Africa", "African Business"],
       sourceUrls: [
-        "https://afdb.org",
-        "https://reuters.com/africa",
-        "https://african.business",
+        "https://www.afdb.org/en",
+        "https://www.reuters.com/world/africa/",
+        "https://african.business/category/technology",
+      ],
+    },
+    {
+      id: "a5",
+      title: "Egypt Launches National AI Strategy 2.0 with $150M Investment in AI Education",
+      analysis:
+        "Egypt's Ministry of Communications and Information Technology unveiled the second phase of its National AI Strategy, committing $150M over three years to AI education, establishing 10 new AI research centers at public universities, and launching a national AI certification program. The strategy targets training 100,000 AI practitioners by 2028.",
+      mvImplication:
+        "Egypt is making the largest single-country investment in AI human capital on the continent. This positions Cairo as a talent hub for Arabic-language AI development and creates a pipeline for North African AI startups. Companies seeking Arabic NLP talent should monitor this ecosystem closely.",
+      sources: ["African Business", "Reuters Africa", "Egypt Ministry of ICT"],
+      sourceUrls: [
+        "https://african.business/category/technology",
+        "https://www.reuters.com/world/africa/",
+        "https://mcit.gov.eg/en",
       ],
     },
   ],

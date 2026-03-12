@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Lock } from "lucide-react";
 
 const PASS_KEY = "mv-intelligence-auth";
-const PASSWORD = "mvintel2026";
+const PASSWORD = "gigi";
 
 export const PasswordGate = ({ children }: { children: React.ReactNode }) => {
   const [authenticated, setAuthenticated] = useState(
@@ -28,16 +28,14 @@ export const PasswordGate = ({ children }: { children: React.ReactNode }) => {
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-xs space-y-6 text-center"
+        className="w-full max-w-sm space-y-8 text-center"
       >
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 bg-primary/10 flex items-center justify-center">
-            <Lock className="h-4 w-4 text-primary" />
-          </div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-foreground">
+        <div className="flex flex-col items-center gap-4">
+          <Lock className="h-5 w-5 text-muted-foreground" />
+          <h1 className="font-display text-3xl font-bold tracking-tight text-foreground">
             MV Intelligence
-          </p>
-          <p className="text-[9px] text-muted-foreground uppercase tracking-[0.2em]">
+          </h1>
+          <p className="text-[12px] text-muted-foreground">
             Enter password to continue
           </p>
         </div>
@@ -48,20 +46,20 @@ export const PasswordGate = ({ children }: { children: React.ReactNode }) => {
           onChange={(e) => setValue(e.target.value)}
           placeholder="Password"
           autoFocus
-          className={`w-full px-4 py-2.5 text-[11px] bg-card border text-foreground placeholder:text-muted-foreground outline-none focus:ring-1 focus:ring-primary transition-all ${
-            error ? "border-destructive ring-1 ring-destructive" : "border-border"
+          className={`w-full px-4 py-3 text-sm border text-foreground placeholder:text-muted-foreground outline-none focus:border-primary transition-all bg-transparent ${
+            error ? "border-destructive" : "border-foreground/20"
           }`}
         />
 
         {error && (
-          <p className="text-[9px] text-destructive uppercase tracking-[0.15em] font-medium">
+          <p className="text-[11px] text-destructive font-medium">
             Incorrect password
           </p>
         )}
 
         <button
           type="submit"
-          className="w-full py-2.5 text-[10px] font-semibold uppercase tracking-[0.18em] bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+          className="w-full py-3 text-[13px] font-semibold border border-foreground text-foreground hover:bg-foreground hover:text-background transition-colors"
         >
           Access Briefing
         </button>

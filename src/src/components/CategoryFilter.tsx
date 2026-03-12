@@ -9,13 +9,13 @@ interface CategoryFilterProps {
 
 export function CategoryFilter({ active, onSelect }: CategoryFilterProps) {
   return (
-    <div className="flex flex-wrap gap-[2px]">
+    <div className="flex flex-wrap gap-3 mb-6">
       <button
         onClick={() => onSelect(null)}
-        className={`px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] transition-colors ${
+        className={`text-[13px] font-display font-semibold transition-colors pb-1 ${
           active === null
-            ? "bg-primary text-primary-foreground"
-            : "bg-card text-muted-foreground hover:text-foreground"
+            ? "text-foreground border-b-2 border-foreground"
+            : "text-muted-foreground hover:text-foreground"
         }`}
       >
         All
@@ -24,10 +24,10 @@ export function CategoryFilter({ active, onSelect }: CategoryFilterProps) {
         <button
           key={cat}
           onClick={() => onSelect(active === cat ? null : cat)}
-          className={`px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] transition-colors ${
+          className={`text-[13px] font-display font-semibold transition-colors pb-1 ${
             active === cat
-              ? "bg-primary text-primary-foreground"
-              : "bg-card text-muted-foreground hover:text-foreground"
+              ? "text-foreground border-b-2 border-foreground"
+              : "text-muted-foreground hover:text-foreground"
           }`}
         >
           {cat}
