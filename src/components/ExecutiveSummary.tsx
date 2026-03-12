@@ -1,13 +1,19 @@
-import { useState } from "react";
-import { todayBriefing, type BriefingItem } from "@/data/executiveSummaryData";
-import { ExternalLink, ArrowRight } from "lucide-react";
+import { useState, useMemo } from "react";
+import { type BriefingItem, todayBriefing } from "@/data/executiveSummaryData";
+import { ExternalLink, ArrowRight, Loader2 } from "lucide-react";
 import { RefreshButton } from "@/components/RefreshButton";
 import { type TldrItem } from "@/data/tldrData";
-import { useTldrItems } from "@/hooks/useNewsData";
+import { useTldrItems, useDailyBriefing } from "@/hooks/useNewsData";
+import { format } from "date-fns";
 
 type BriefTab = "briefing" | "tldr";
 
-function BriefingCard({ item, index }: { item: BriefingItem; index: number }) {
+interface BriefingCardProps {
+  item: BriefingItem;
+  index: number;
+}
+
+function BriefingCard({ item, index }: BriefingCardProps) {
   return (
     <article
       className="border-t border-foreground/20 pt-4 opacity-0 animate-fade-in"
@@ -36,10 +42,10 @@ function BriefingCard({ item, index }: { item: BriefingItem; index: number }) {
           </div>
 
           <div className="flex flex-wrap gap-3 pt-1">
-            {item.sources.map((source, i) => (
+            {item.sources?.map((source, i) => (
               <a
                 key={i}
-                href={item.sourceUrls[i]}
+                href={item.sourceUrls?.[i]}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 text-[12px] text-muted-foreground hover:text-primary transition-colors"
@@ -58,7 +64,11 @@ function BriefingCard({ item, index }: { item: BriefingItem; index: number }) {
 const tldrCategories = ["all", "headlines", "research", "tools", "launches"] as const;
 type TldrCategory = (typeof tldrCategories)[number];
 
-function TldrCard({ item }: { item: TldrItem }) {
+interface TldrCardProps {
+  item: TldrItem;
+}
+
+function TldrCard({ item }: TldrCardProps) {
   return (
     <article className="border-t border-foreground/20 pt-4">
       <p className="text-[12px] text-muted-foreground mb-2">
@@ -110,10 +120,7 @@ function TldrSection() {
       <div>
         <div className="flex items-center justify-between">
           <p className="text-[12px] text-muted-foreground">
-            Curated from{" "}
-            <a href="https://tldr.tech/ai" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-              tldr.tech/ai
-            </a>
+            Curated from AI news feeds
           </p>
           <RefreshButton onClick={() => refetch()} isFetching={isFetching} />
         </div>
@@ -156,18 +163,39 @@ function TldrSection() {
 
 export function ExecutiveSummary() {
   const [activeSubTab, setActiveSubTab] = useState<BriefTab>("briefing");
-  const { date, globalItems, africaItems, africaNoUpdate } = todayBriefing;
+  const { data: briefingRow, isLoading: isLoadingBriefing } = useDailyBriefing();
+
+  const briefing = useMemo(() => {
+    if (!briefingRow) return todayBriefing;
+    return {
+      date: format(new Date(briefingRow.published_date), "MMMM d, yyyy"),
+      globalItems: briefingRow.data.globalItems || [],
+      africaItems: briefingRow.data.africaItems || [],
+      africaNoUpdate: (briefingRow.data.africaItems?.length || 0) === 0,
+    };
+  }, [briefingRow]);
 
   const subTabs: { key: BriefTab; label: string }[] = [
     { key: "briefing", label: "Top Stories" },
     { key: "tldr", label: "TLDR AI" },
   ];
 
+  if (isLoadingBriefing) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 animate-pulse">
+        <Loader2 className="h-8 w-8 text-primary animate-spin mb-4" />
+        <p className="text-[13px] text-muted-foreground italic">Generating your daily briefing...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8 sm:space-y-10">
       {/* Header */}
       <div>
-        <p className="text-[12px] text-muted-foreground mb-1">{date} · Updated hourly</p>
+        <p className="text-[12px] text-muted-foreground mb-1">
+          {briefing.date} · Updated hourly
+        </p>
         <h2 className="font-display text-[28px] sm:text-[36px] font-bold tracking-tight text-foreground leading-[1.1]">
           Daily Brief
         </h2>
@@ -201,8 +229,8 @@ export function ExecutiveSummary() {
               <div className="flex-1 h-px bg-foreground/20" />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-              {globalItems.map((item, i) => (
-                <BriefingCard key={item.id} item={item} index={i} />
+              {briefing.globalItems.map((item: any, i: number) => (
+                <BriefingCard key={i} item={item} index={i} />
               ))}
             </div>
           </div>
@@ -215,14 +243,14 @@ export function ExecutiveSummary() {
               </h3>
               <div className="flex-1 h-px bg-foreground/20" />
             </div>
-            {africaNoUpdate ? (
+            {briefing.africaNoUpdate ? (
               <p className="text-[13px] text-muted-foreground italic">
                 No significant verified AI developments in Africa in the past 24 hours.
               </p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                {africaItems?.map((item, i) => (
-                  <BriefingCard key={item.id} item={item} index={i} />
+                {briefing.africaItems?.map((item: any, i: number) => (
+                  <BriefingCard key={i} item={item} index={i} />
                 ))}
               </div>
             )}
@@ -231,7 +259,7 @@ export function ExecutiveSummary() {
           {/* Sources */}
           <div className="border-t border-foreground/10 pt-4">
             <p className="text-[10px] text-muted-foreground leading-relaxed text-center">
-              Sources: Financial Times · Bloomberg · Reuters · TechCrunch · The Verge · TechCabal · Disrupt Africa · African Business · TLDR AI · Official Company Blogs
+              Sources: Financial Times · Bloomberg · Reuters · TechCrunch · The Verge · TechCabal · Disrupt Africa · African Business · TLDR AI · Official Company Blogs 
             </p>
           </div>
         </>

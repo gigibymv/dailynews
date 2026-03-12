@@ -1,25 +1,53 @@
 import { useState } from "react";
-import { GitBranch, ArrowUp, MessageSquare, Star, ArrowRight } from "lucide-react";
+import { GitBranch, ArrowUp, MessageSquare, Star, ArrowRight, Bookmark, BookmarkCheck } from "lucide-react";
 import { type CommunityPost } from "@/data/newsData";
+import { useBookmarks } from "@/hooks/useBookmarks";
 
 export function CommunityCard({ post, index }: { post: CommunityPost; index: number }) {
   const [expanded, setExpanded] = useState(false);
+  const { isBookmarked, toggleBookmark } = useBookmarks();
   const isGitHub = post.source === "github";
+  const bookmarked = isBookmarked(post.id);
+
+  const handleBookmark = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleBookmark({
+      id: post.id,
+      category: "community",
+      title: post.title,
+      url: post.url,
+      source: post.source,
+      data: post,
+    });
+  };
 
   return (
     <article
-      className="border-t border-foreground/20 pt-4 opacity-0 animate-fade-in cursor-pointer"
+      className="border-t border-foreground/20 pt-4 opacity-0 animate-fade-in cursor-pointer group"
       style={{ animationDelay: `${index * 50}ms` }}
       onClick={() => setExpanded(!expanded)}
     >
-      <div className="flex items-center gap-2 text-[11px] text-muted-foreground mb-2">
-        <span className="font-semibold text-primary uppercase tracking-[0.1em]">
-          {isGitHub ? "GitHub" : "Reddit"}
-        </span>
-        <span>·</span>
-        <span>{isGitHub ? post.repo : post.subreddit}</span>
-        <span>·</span>
-        <span>{post.timeAgo}</span>
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
+          <span className="font-semibold text-primary uppercase tracking-[0.1em]">
+            {isGitHub ? "GitHub" : "Reddit"}
+          </span>
+          <span>·</span>
+          <span>{isGitHub ? post.repo : post.subreddit}</span>
+          <span>·</span>
+          <span>{post.timeAgo}</span>
+        </div>
+        <button
+          onClick={handleBookmark}
+          className={`p-1.5 rounded-full transition-colors ${
+            bookmarked 
+              ? "text-primary bg-primary/10" 
+              : "text-muted-foreground hover:text-foreground hover:bg-foreground/5 opacity-0 group-hover:opacity-100"
+          }`}
+          title={bookmarked ? "Remove bookmark" : "Save for later"}
+        >
+          {bookmarked ? <BookmarkCheck className="h-3.5 w-3.5" /> : <Bookmark className="h-3.5 w-3.5" />}
+        </button>
       </div>
 
       <h4 className="font-display text-[18px] sm:text-[20px] font-bold leading-[1.2] tracking-tight text-foreground mb-3">

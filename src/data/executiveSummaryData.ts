@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 export interface BriefingItem {
   id: string;
   title: string;
@@ -15,7 +17,7 @@ export interface ExecutiveBriefing {
 }
 
 export const todayBriefing: ExecutiveBriefing = {
-  date: "March 11, 2026",
+  date: format(new Date(), "MMMM d, yyyy"),
   globalItems: [
     {
       id: "g1",

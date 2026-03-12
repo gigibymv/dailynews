@@ -61,16 +61,19 @@ const Index = () => {
   const handleRefreshAll = useCallback(async () => {
     setIsRefreshing(true);
     try {
-      const { error } = await supabase.functions.invoke('fetch-daily-news');
-      if (error) console.error('Refresh failed:', error);
+      const mode = activeTab === "briefing" ? "daily" : "hourly";
+      const { error } = await supabase.functions.invoke("fetch-daily-news", {
+        body: { mode },
+      });
+      if (error) console.error("Refresh failed:", error);
       // Realtime will auto-update, but refetch to be sure
       await Promise.all([refetchNews(), refetchCommunity()]);
     } catch (err) {
-      console.error('Refresh error:', err);
+      console.error("Refresh error:", err);
     } finally {
       setIsRefreshing(false);
     }
-  }, [refetchNews, refetchCommunity]);
+  }, [refetchNews, refetchCommunity, activeTab]);
 
   const filtered = useMemo(
     () => activeCategory ? newsArticles.filter((n) => n.category === activeCategory) : newsArticles,
@@ -100,9 +103,20 @@ const Index = () => {
             >
               {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
-            <p className="font-display text-base font-bold text-foreground lg:hidden truncate">
-              MV Intelligence
-            </p>
+            <div className="flex flex-col lg:hidden">
+              <p className="font-display text-base font-bold text-foreground truncate">
+                MV Intelligence
+              </p>
+              <p className="text-[8px] text-muted-foreground uppercase tracking-tight">
+                Independent purchase decision engine
+              </p>
+              {useCaseQuery && (
+                <div className="mt-2 p-2 border border-primary/20 bg-primary/5 rounded">
+                  <p className="text-[9px] font-bold text-primary uppercase tracking-widest mb-0.5">Review your scenario</p>
+                  <p className="text-[11px] text-foreground truncate">{useCaseQuery}</p>
+                </div>
+              )}
+            </div>
             <time className="text-[11px] text-muted-foreground hidden sm:block">
               {format(new Date(), "EEEE, MMMM d, yyyy")}
             </time>
@@ -226,7 +240,7 @@ const Index = () => {
                     Real AI use cases from real people
                   </h2>
                 </div>
-                <RefreshButton onClick={handleRefreshAll} isFetching={isRefreshing} label="Find new" />
+                <RefreshButton onClick={() => handleUseCaseSearch(useCaseQuery || "latest AI tools")} isFetching={isSearching} label="Find new" />
               </div>
 
               <UseCaseSearch
@@ -367,7 +381,21 @@ const Index = () => {
                 </div>
               )}
 
-              {getByCategory("news").length === 0 && getByCategory("usecases").length === 0 && (
+              {getByCategory("community").length > 0 && (
+                <div>
+                  <div className="flex items-center gap-4 mb-6">
+                    <h3 className="font-display text-[22px] sm:text-[26px] font-normal text-foreground italic shrink-0">community</h3>
+                    <div className="flex-1 h-px bg-foreground/20" />
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                    {getByCategory("community").map((b, i) => (
+                      <CommunityCard key={b.id} post={b.data} index={i} />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {getByCategory("news").length === 0 && getByCategory("usecases").length === 0 && getByCategory("community").length === 0 && (
                 <div className="text-center py-16">
                   <Bookmark className="h-8 w-8 text-muted-foreground/30 mx-auto mb-4" />
                   <p className="text-[13px] text-muted-foreground italic">

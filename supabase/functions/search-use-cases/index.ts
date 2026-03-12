@@ -5,7 +5,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
 };
 
-const AI_GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -13,9 +12,9 @@ serve(async (req) => {
   }
 
   try {
-    const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
-    if (!LOVABLE_API_KEY) {
-      throw new Error('LOVABLE_API_KEY is not configured');
+    const GEMINI_API_KEY = Deno.env.get('GEMINI_API_KEY');
+    if (!GEMINI_API_KEY) {
+      throw new Error('GEMINI_API_KEY is not configured');
     }
 
     const { query } = await req.json();
@@ -40,29 +39,28 @@ Focus on REAL, PRACTICAL use cases that people have actually deployed. Be specif
 
 Return ONLY the JSON array, no markdown, no explanation.`;
 
-    const response = await fetch(AI_GATEWAY_URL, {
-      method: 'POST',
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${LOVABLE_API_KEY}`,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.5-flash',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: `Find AI use cases for this pain point: "${query}"` },
+        contents: [
+          { role: 'user', parts: [{ text: `${systemPrompt}\n\nFind AI use cases for this pain point: "${query}"` }] }
         ],
-        temperature: 0.7,
+        generationConfig: {
+          temperature: 0.7,
+        },
       }),
     });
 
     if (!response.ok) {
       const errBody = await response.text();
-      throw new Error(`AI Gateway error [${response.status}]: ${errBody}`);
+      throw new Error(`Gemini API error [${response.status}]: ${errBody}`);
     }
 
     const data = await response.json();
-    const content = data.choices?.[0]?.message?.content || '[]';
+    const content = data.candidates?.[0]?.content?.parts?.[0]?.text || '[]';
     
     // Parse the JSON from the response, handling potential markdown wrapping
     let results;

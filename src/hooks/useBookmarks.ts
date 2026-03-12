@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 
-export type BookmarkCategory = "news" | "usecases";
+export type BookmarkCategory = "news" | "usecases" | "community";
 
 export interface Bookmark {
   id: string;

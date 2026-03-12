@@ -30,9 +30,15 @@ export function AppSidebar({ activeTab = "briefing", onTabChange }: AppSidebarPr
         <p className="font-display text-xl font-bold text-foreground tracking-tight">
           MV Intelligence
         </p>
-        <p className="text-[10px] text-muted-foreground mt-1">
-          Daily AI Briefing
+        <p className="text-[10px] text-muted-foreground mt-1 uppercase tracking-wider">
+          Independent purchase decision engine
         </p>
+        <div className="mt-4 p-3 border border-primary/20 bg-primary/5 rounded-lg">
+          <p className="text-[9px] font-bold text-primary uppercase tracking-widest mb-1">Review your scenario</p>
+          <p className="text-[11px] text-foreground leading-relaxed italic">
+            "Optimize cloud infrastructure for scalability"
+          </p>
+        </div>
       </div>
 
       <nav className="flex flex-col py-4 flex-1 px-4">

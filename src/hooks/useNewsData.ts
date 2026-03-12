@@ -44,27 +44,35 @@ export function useNewsArticles() {
   return useQuery({
     queryKey: ["news-articles"],
     queryFn: async (): Promise<NewsItem[]> => {
-      const { data, error } = await supabase
-        .from("news_articles")
-        .select("*")
-        .order("is_breaking", { ascending: false })
-        .order("created_at", { ascending: false });
+      try {
+        const { data, error } = await supabase
+          .from("news_articles")
+          .select("*")
+          .order("is_breaking", { ascending: false })
+          .order("created_at", { ascending: false });
 
-      if (error) throw error;
+        if (error) {
+          console.error("Supabase news fetch error:", error);
+          return mockNews;
+        }
 
-      if (!data || data.length === 0) return mockNews;
+        if (!data || data.length === 0) return mockNews;
 
-      return data.map((row: any) => ({
-        id: row.id,
-        title: row.title,
-        summary: row.summary,
-        takeaways: row.takeaways || [],
-        source: row.source,
-        url: row.url,
-        category: row.category as NewsCategory,
-        timeAgo: timeAgo(row.created_at),
-        isBreaking: row.is_breaking,
-      }));
+        return data.map((row: any) => ({
+          id: row.id,
+          title: row.title,
+          summary: row.summary,
+          takeaways: row.takeaways || [],
+          source: row.source,
+          url: row.url,
+          category: row.category as NewsCategory,
+          timeAgo: timeAgo(row.created_at),
+          isBreaking: row.is_breaking,
+        }));
+      } catch (err) {
+        console.error("Unexpected news fetch error:", err);
+        return mockNews;
+      }
     },
     staleTime: 2 * 60 * 1000, // 2 minutes for near-realtime
   });
@@ -124,6 +132,24 @@ export function useCommunityPosts() {
         comments: row.comments,
         url: row.url,
       }));
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+}
+
+export function useDailyBriefing() {
+  return useQuery({
+    queryKey: ["daily-briefing"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("daily_briefings")
+        .select("*")
+        .order("published_date", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (error) throw error;
+      return data;
     },
     staleTime: 5 * 60 * 1000,
   });
